@@ -1,0 +1,22 @@
+{
+  "name": "NTD Bid Tracker",
+  "short_name": "NTD Bids",
+  "description": "NTD Mechanical sales bid tracker and daily huddle tool",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f7f5",
+  "theme_color": "#1a1a1a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
