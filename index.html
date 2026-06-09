@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NTD Bid Tracker</title>
+<link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NTD Bids">
-<meta name="theme-color" content="#1a1a1a">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="manifest" href="manifest.json">
-<title>NTD Bid Tracker</title>
+<meta name="theme-color" content="#1B3A6B">
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   :root{
@@ -507,6 +507,27 @@ function esc(s){
 }
 
 showTab('pipeline');
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      reg.update();
+      reg.addEventListener('updatefound', function(){
+        var newSW = reg.installing;
+        newSW.addEventListener('statechange', function(){
+          if(newSW.state === 'installed' && navigator.serviceWorker.controller){
+            if(confirm('Update available. Reload now?')) newSW.postMessage('skipWaiting');
+          }
+        });
+      });
+      if(reg.waiting) reg.waiting.postMessage('skipWaiting');
+    });
+    var refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function(){
+      if(!refreshing){ refreshing = true; window.location.reload(); }
+    });
+  });
+}
 </script>
 </body>
 </html>
